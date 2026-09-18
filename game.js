@@ -1,5 +1,5 @@
 // ==================================================
-// PIXEL ADVENTURE V7.0
+// PIXEL ADVENTURE V7.1.1
 // 游戏核心：LEVEL 4 THE GUARDIAN Boss 战
 // ==================================================
 
@@ -121,6 +121,7 @@ let boss = null;
 let bossTraps = [];
 let bossMoveTimer = null;
 let bossFlashUntil = 0;
+let bossStunnedUntil = 0;
 let bossDefeated = false;
 
 
@@ -2418,6 +2419,13 @@ function drawBoss(timestamp) {
   ctx.fillStyle = "#450a0a";
   ctx.fillRect(px + 7, y + 25, 8, 4);
   ctx.fillRect(px + 20, y + 25, 8, 4);
+
+  if (timestamp < bossStunnedUntil) {
+    ctx.fillStyle = "#fde047";
+    ctx.fillRect(px + 6, y + 1, 3, 3);
+    ctx.fillRect(px + 16, y - 1, 3, 3);
+    ctx.fillRect(px + 26, y + 2, 3, 3);
+  }
 }
 
 function drawBossBar() {
@@ -3042,12 +3050,13 @@ function checkBossSwitches() {
   bossTraps.forEach(trap => {
     if (trap.used || player.x !== trap.switchX || player.y !== trap.switchY) return;
 
-    trap.used = true;
-
     if (boss.x === trap.x && boss.y === trap.y) {
-      trap.flashUntil = performance.now() + 350;
+      // V7.1.1：只有真正命中 Boss 才消耗开关
+      trap.used = true;
+      trap.flashUntil = performance.now() + 420;
       boss.hp--;
-      bossFlashUntil = performance.now() + 650;
+      bossFlashUntil = performance.now() + 700;
+      bossStunnedUntil = performance.now() + 1100;
       playBossHitSound();
       createAdventureEffect(boss.x, boss.y, "ZAP! -1", "#fde047");
       updateGameInfo();
@@ -3067,13 +3076,16 @@ function checkBossSwitches() {
       }
     } else {
       playTrapMissSound();
-      createAdventureEffect(trap.switchX, trap.switchY, "MISS!", "#fca5a5");
+      createAdventureEffect(trap.switchX, trap.switchY, "WAIT!", "#fca5a5");
     }
   });
 }
 
 function moveBoss() {
   if (gamePaused || !boss || bossDefeated) return;
+
+  // V7.1.1：ZAP 后硬直 1.1 秒
+  if (performance.now() < bossStunnedUntil) return;
 
   const directions = [
     { x: 0, y: -1 }, { x: 0, y: 1 },
