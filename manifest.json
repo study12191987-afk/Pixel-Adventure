@@ -1,0 +1,25 @@
+{
+  "name": "Pixel Adventure",
+  "short_name": "Pixel Adventure",
+  "description": "A tiny pixel adventure game.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#171b24",
+  "theme_color": "#7ba05b",
+  "icons": [
+    {
+      "src": "pixel-adventure-icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "pixel-adventure-icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
