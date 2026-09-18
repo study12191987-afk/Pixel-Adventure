@@ -5,7 +5,6 @@
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#7ba05b">
   <link rel="apple-touch-icon" href="pixel-adventure-icon-192.png">
-  
   <meta charset="UTF-8">
 
   <meta
@@ -13,7 +12,7 @@
     content="width=device-width, initial-scale=1.0, user-scalable=no"
   >
 
-  <title>Pixel Adventure V7.1 - Full Pixel UI</title>
+  <title>Pixel Adventure V7.1.1 - Final PWA</title>
 
   <link rel="stylesheet" href="style.css">
 </head>
@@ -121,20 +120,16 @@
   <script src="game.js"></script>
 
 
-<script>
-  if ("serviceWorker" in navigator) {
-    window.addEventListener("load", () => {
-      navigator.serviceWorker
-        .register("./service-worker.js")
-        .then(() => {
-          console.log("Pixel Adventure Service Worker ready!");
-        })
-        .catch(error => {
-          console.error("Service Worker failed:", error);
-        });
-    });
-  }
-</script>
+  <script>
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", () => {
+        navigator.serviceWorker.register("./service-worker.js")
+          .then(() => console.log("Pixel Adventure Service Worker ready!"))
+          .catch(error => console.error("Service Worker failed:", error));
+      });
+    }
+  </script>
+
 </body>
 
 </html>
